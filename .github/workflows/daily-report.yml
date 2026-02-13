@@ -2,7 +2,7 @@ name: Magic Spa 每日评论报告
 
 on:
   schedule:
-    - cron: '0 13 * * *'   # UTC 13:00 ≈ 北京时间 21:00 / Houston 时间早上 7:00（可改）
+    - cron: '0 1 * * *'   # UTC 13:00 ≈ 北京时间 21:00 / Houston 时间早上 7:00（可改）
   workflow_dispatch:       # 允许手动测试
 
 jobs:
