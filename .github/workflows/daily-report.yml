@@ -1,0 +1,48 @@
+name: Magic Spa 每日评论报告
+
+on:
+  schedule:
+    - cron: '0 13 * * *'   # UTC 13:00 ≈ 北京时间 21:00 / Houston 时间早上 7:00（可改）
+  workflow_dispatch:       # 允许手动测试
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests python-dotenv pytz
+
+      - name: Run scraping script
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          BUSINESS_NAME: "Magic Spa"
+          # BUSINESS_PLACE_ID: ${{ secrets.BUSINESS_PLACE_ID }}  # 如果有就取消注释并添加 Secret
+        run: python magic_spa.py
+
+      - name: Send latest report
+        env:
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          TO_ADDR: ${{ secrets.TO_ADDR }}
+          SMTP_SERVER: smtp.qq.com
+          SMTP_PORT: 465
+        run: python send_latest_report.py
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-report
+          path: magic_spa_report_*.json
+          retention-days: 7
