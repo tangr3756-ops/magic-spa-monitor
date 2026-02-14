@@ -1,12 +1,11 @@
-print(f"本次运行时间 (UTC): {datetime.utcnow()}")
-print(f"本次运行时间 (Houston): {datetime.now(pytz.timezone('America/Chicago'))}")
 import os
 import requests
 import json
 from datetime import datetime
 import pytz
 from dotenv import load_dotenv
-
+print(f"本次运行时间 (UTC): {datetime.utcnow()}")
+print(f"本次运行时间 (Houston): {datetime.now(pytz.timezone('America/Chicago'))}")
 # 加载 .env 文件
 load_dotenv()
 
