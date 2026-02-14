@@ -44,5 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: daily-report
-          path: magic_spa_report_*.json
+          path: |
+            magic_spa_report_*.json
+            *.json  # 更宽松，匹配所有 .json 文件
           retention-days: 7
