@@ -1,3 +1,5 @@
+print(f"本次运行时间 (UTC): {datetime.utcnow()}")
+print(f"本次运行时间 (Houston): {datetime.now(pytz.timezone('America/Chicago'))}")
 import os
 import requests
 import json
